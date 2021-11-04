@@ -4,6 +4,10 @@
     </head>
 
     <style>
+        body {
+            font-family: arial;
+        }
+
         form button {
             display: block;
             width: 100%;
@@ -32,7 +36,11 @@
             right: 0;
         }
 
-        pre {
+        .blind .blind-info {
+            padding: 5px 0;
+        }
+
+        #state {
             display: none;
         }
 
@@ -59,12 +67,16 @@
                 const openRangeElement = document.querySelector(`#blind_${index} .blind-state .open-range`);
                 const openElement = document.querySelector(`#blind_${index} button[value="openBlind"]`);
                 const closeElement = document.querySelector(`#blind_${index} button[value="closeBlind"]`);
+                const positionElement = document.querySelector(`#blind_${index} .blind-position`);
+                const debugElement = document.querySelector(`#blind_${index} .blind-debug`);
 
                 const closeState = blind.position * 100;
                 openStateElement.style = `height: ${closeState}%`;
                 openRangeElement.value = closeState;
                 openElement.disabled = !blind.initialized;
                 closeElement.disabled = !blind.initialized;
+                positionElement.innerText = blind.positionTicks;
+                debugElement.innerHTML = JSON.stringify(blind, null, 2);
 
                 if (!blind.initialized) {
                     allInitialized = false;
@@ -99,9 +111,9 @@
     </script>
 <body>
 
-<pre id="state">
+<div id="state">
 $$state$$
-</pre>
+</div>
 
     <fieldset id="blinds">
         <legend>
@@ -126,6 +138,9 @@ $$state$$
                 <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
                 <div class="open-state"></div>
             </div>
+            <div class="blind-info">
+                <label>Position: </label><span class="blind-position"></span>
+            </div>
 
             <form action="/rpc" method="post">
                 <input type="hidden" name="blind" value="0" />
@@ -138,6 +153,11 @@ $$state$$
                 <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
                 <button name="action" value="stop" type="submit">Stop</button>
             </form>
+
+            <details>
+                <summary>Debug</summary>
+                <pre class="blind-debug"></pre>
+            </details>
         </fieldset>
 
         <fieldset class="blind" id="blind_1">
@@ -146,6 +166,10 @@ $$state$$
             <div class="blind-state">
                 <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
                 <div class="open-state"></div>
+            </div>
+
+            <div class="blind-info">
+                <label>Position: </label><span class="blind-position"></span>
             </div>
 
             <form action="/rpc" method="post">
@@ -159,6 +183,11 @@ $$state$$
                 <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
                 <button name="action" value="stop" type="submit">Stop</button>
             </form>
+
+            <details>
+                <summary>Debug</summary>
+                <pre class="blind-debug"></pre>
+            </details>
         </fieldset>
 
         <fieldset class="blind" id="blind_2">
@@ -167,6 +196,10 @@ $$state$$
             <div class="blind-state">
                 <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
                 <div class="open-state"></div>
+            </div>
+
+            <div class="blind-info">
+                <label>Position: </label><span class="blind-position"></span>
             </div>
 
             <form action="/rpc" method="post">
@@ -180,6 +213,11 @@ $$state$$
                 <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
                 <button name="action" value="stop" type="submit">Stop</button>
             </form>
+
+            <details>
+                <summary>Debug</summary>
+                <pre class="blind-debug"></pre>
+            </details>
         </fieldset>
 
         <fieldset class="blind" id="blind_3">
@@ -188,6 +226,10 @@ $$state$$
             <div class="blind-state">
                 <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
                 <div class="open-state"></div>
+            </div>
+
+            <div class="blind-info">
+                <label>Position: </label><span class="blind-position"></span>
             </div>
 
             <form action="/rpc" method="post">
@@ -201,6 +243,11 @@ $$state$$
                 <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
                 <button name="action" value="stop" type="submit">Stop</button>
             </form>
+
+            <details>
+                <summary>Debug</summary>
+                <pre class="blind-debug"></pre>
+            </details>
         </fieldset>
     </div>
 </body>

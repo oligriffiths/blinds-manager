@@ -1,0 +1,14 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+    Description=Blind Manager
+    After=network.target
+
+[Service]
+    Type=simple
+    ExecStart=/usr/bin/node   /home/pi/blinds-manager/index.js
+    WorkingDirectory=/home/pi/blinds-manager
+    StandardOutput=syslog
+    StandardError=syslog
+    SyslogIdentifier=blinds
