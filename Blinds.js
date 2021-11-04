@@ -5,8 +5,11 @@ const defined = (value) => {
 };
 
 module.exports = class Blinds {
+    /**
+     * @param {object} five Jonny Five instance
+     * @param {object} blindConfigs The blind config from config.json
+     */
     constructor(five, blindConfigs) {
-
         const configs = five.Motor.SHIELD_CONFIGS.ADAFRUIT_V2;
         this.blinds = [];
 
