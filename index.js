@@ -3,9 +3,7 @@ const fs = require('fs');
 const five = require('johnny-five');
 const raspi = require('raspi-io').RaspiIO;
 const http = require('http');
-// const localtunnel = require('localtunnel');
 const Blinds = require('./Blinds');
-const ngrok = require('ngrok');
 const qs = require('querystring');
 
 console.log('Starting Blind Manager...');
@@ -42,8 +40,6 @@ board.on('ready', async () => {
         console.log('Cleaning up...');
         blinds.stop();
         (async () => {
-            await ngrok.disconnect();
-            await ngrok.kill();
             server.close();
         })();
         console.log('Done');
@@ -149,17 +145,5 @@ board.on('ready', async () => {
 
     const listener = server.listen(5050, async () => {
         console.log(`HTTP Server running on port ${listener.address().port}`);
-
-        // const url = await ngrok.connect(5050);
-        // console.log(`Server running on ${url}`);
-        // console.log(`Tunnel starting...`);
-        //
-        // const tunnel = await localtunnel({ host: 'https://serverless.social', port: listener.address().port, subdomain: 'oligriffiths' });
-        // console.log(`Tunnel running on: ${tunnel.url}`);
-        //
-        // tunnel.on('close', () => {
-        //     console.log('Tunnel closed');
-        //     stopBlinds();
-        // });
     });
 });
