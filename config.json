@@ -1,0 +1,8 @@
+{
+  "blindConfigs": [
+    {"openTime": 35, "closeTime": 30, "ticks": 52, "speed": 255},
+    {"openTime": 35, "closeTime": 30, "ticks": 52, "speed": 255},
+    {"openTime": 34, "closeTime": 26.9, "ticks": 58, "speed": 255},
+    {"openTime": 29, "closeTime": 25.5, "ticks": 58, "speed": 255}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "jonny-five",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "raspi-io": "^11.0.0",
+    "johnny-five": "^1.4.0",
+    "localtunnel": "^2.0.0",
+    "ngrok": "^3.2.7"
+  }
+}

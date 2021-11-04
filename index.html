@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <title>Blind Manager</title>
+    </head>
+
+    <style>
+        form button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .blinds {
+            display: flex;
+        }
+
+        .blind {
+            flex: 1;
+            margin: 1em;
+        }
+
+        .blind .blind-state {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .blind .blind-state .open-state {
+            background-color: #00daff;
+            position: absolute;
+            left: 20px;
+            top: 0;
+            right: 0;
+        }
+
+        pre {
+            display: none;
+        }
+
+        input[type=range][orient=vertical]
+        {
+            writing-mode: bt-lr; /* IE */
+            -webkit-appearance: slider-vertical; /* WebKit */
+            width: 8px;
+            height: 175px;
+            padding: 0 5px;
+            transform: rotate(180deg);
+        }
+    </style>
+
+    <script>
+        let globalState;
+        function setState(state) {
+            globalState = state;
+
+            let allInitialized = true;
+            for (let index in state) {
+                const blind = state[index];
+                const openStateElement = document.querySelector(`#blind_${index} .blind-state .open-state`);
+                const openRangeElement = document.querySelector(`#blind_${index} .blind-state .open-range`);
+                const openElement = document.querySelector(`#blind_${index} button[value="openBlind"]`);
+                const closeElement = document.querySelector(`#blind_${index} button[value="closeBlind"]`);
+
+                const closeState = blind.position * 100;
+                openStateElement.style = `height: ${closeState}%`;
+                openRangeElement.value = closeState;
+                openElement.disabled = !blind.initialized;
+                closeElement.disabled = !blind.initialized;
+
+                if (!blind.initialized) {
+                    allInitialized = false;
+                }
+            }
+
+            if (allInitialized) {
+                const openElement = document.querySelector(`#blinds button[value="openAll"]`);
+                const closeElement = document.querySelector(`#blinds button[value="closeAll"]`);
+                openElement.disabled = false;
+                closeElement.disabled = false;
+            }
+        }
+
+        function refreshState() {
+            function reqListener () {
+                setState(JSON.parse(this.responseText));
+                setTimeout(refreshState, 1000);
+            }
+
+            const oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open('GET', '/state');
+            oReq.send();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const stateStr = document.getElementById('state').innerText;
+            setState(JSON.parse(stateStr));
+            refreshState();
+        });
+    </script>
+<body>
+
+<pre id="state">
+$$state$$
+</pre>
+
+    <fieldset id="blinds">
+        <legend>
+            All
+        </legend>
+
+        <form action="/rpc" method="post">
+            <button name="action" value="openAll" type="submit" disabled="disabled">Open</button>
+            <button name="action" value="closeAll" type="submit" disabled="disabled">Close</button>
+            <button name="action" value="nudgeOpenAll" type="submit">Nudge Up</button>
+            <button name="action" value="nudgeCloseAll" type="submit">Nudge Down</button>
+            <button name="action" value="stop" type="submit">Stop</button>
+        </form>
+    </fieldset>
+
+    <div class="blinds">
+
+        <fieldset class="blind" id="blind_0">
+            <legend>Blind 1</legend>
+
+            <div class="blind-state">
+                <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
+                <div class="open-state"></div>
+            </div>
+
+            <form action="/rpc" method="post">
+                <input type="hidden" name="blind" value="0" />
+                <button name="action" value="initializeBlind" type="submit">Initialize</button>
+                <button name="action" value="openBlind" type="submit" disabled="disabled">Open</button>
+                <button name="action" value="forceOpenBlind" type="submit">Force Open</button>
+                <button name="action" value="closeBlind" type="submit" disabled="disabled">Close</button>
+                <button name="action" value="forceCloseBlind" type="submit">Force Close</button>
+                <button name="action" value="nudgeBlindOpen" type="submit">Nudge Up</button>
+                <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
+                <button name="action" value="stop" type="submit">Stop</button>
+            </form>
+        </fieldset>
+
+        <fieldset class="blind" id="blind_1">
+            <legend>Blind 2</legend>
+
+            <div class="blind-state">
+                <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
+                <div class="open-state"></div>
+            </div>
+
+            <form action="/rpc" method="post">
+                <input type="hidden" name="blind" value="1" />
+                <button name="action" value="initializeBlind" type="submit">Initialize</button>
+                <button name="action" value="openBlind" type="submit" disabled="disabled">Open</button>
+                <button name="action" value="forceOpenBlind" type="submit">Force Open</button>
+                <button name="action" value="closeBlind" type="submit" disabled="disabled">Close</button>
+                <button name="action" value="forceCloseBlind" type="submit">Force Close</button>
+                <button name="action" value="nudgeBlindOpen" type="submit">Nudge Up</button>
+                <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
+                <button name="action" value="stop" type="submit">Stop</button>
+            </form>
+        </fieldset>
+
+        <fieldset class="blind" id="blind_2">
+            <legend>Blind 3</legend>
+
+            <div class="blind-state">
+                <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
+                <div class="open-state"></div>
+            </div>
+
+            <form action="/rpc" method="post">
+                <input type="hidden" name="blind" value="2" />
+                <button name="action" value="initializeBlind" type="submit">Initialize</button>
+                <button name="action" value="openBlind" type="submit" disabled="disabled">Open</button>
+                <button name="action" value="forceOpenBlind" type="submit">Force Open</button>
+                <button name="action" value="closeBlind" type="submit" disabled="disabled">Close</button>
+                <button name="action" value="forceCloseBlind" type="submit">Force Close</button>
+                <button name="action" value="nudgeBlindOpen" type="submit">Nudge Up</button>
+                <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
+                <button name="action" value="stop" type="submit">Stop</button>
+            </form>
+        </fieldset>
+
+        <fieldset class="blind" id="blind_3">
+            <legend>Blind 4</legend>
+
+            <div class="blind-state">
+                <input class="open-range" type="range" orient="vertical" disabled="disabled" value="0" />
+                <div class="open-state"></div>
+            </div>
+
+            <form action="/rpc" method="post">
+                <input type="hidden" name="blind" value="3" />
+                <button name="action" value="initializeBlind" type="submit">Initialize</button>
+                <button name="action" value="openBlind" type="submit" disabled="disabled">Open</button>
+                <button name="action" value="forceOpenBlind" type="submit">Force Open</button>
+                <button name="action" value="closeBlind" type="submit" disabled="disabled">Close</button>
+                <button name="action" value="forceCloseBlind" type="submit">Force Close</button>
+                <button name="action" value="nudgeBlindOpen" type="submit">Nudge Up</button>
+                <button name="action" value="nudgeBlindClose" type="submit">Nudge Down</button>
+                <button name="action" value="stop" type="submit">Stop</button>
+            </form>
+        </fieldset>
+    </div>
+</body>
+</html>
