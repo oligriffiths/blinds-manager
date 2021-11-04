@@ -25,7 +25,7 @@ module.exports = class Blind {
 
         // Setup start timer to log start date and setup stall timer
         this.motor.on('start', () => {
-            console.log(`Motor ${this.index} started`);
+            console.log(`Blind ${this.index} started`);
             this.motor.startDate = new Date();
 
             // Start a timer to check if we receive a tick from the reed switch within this.stallTime (1000ms)
@@ -35,7 +35,7 @@ module.exports = class Blind {
 
         // Setup motor stop callback to log runtime
         this.motor.on('stop', () => {
-            console.log(`Motor ${this.index} stopped`);
+            console.log(`Blind ${this.index} stopped`);
             if (this.motor.startDate) {
                 const diff = ((new Date()).getTime() - this.motor.startDate.getTime()) / 1000;
                 console.log(`Blind ${this.index} run time: ${diff}`);
@@ -309,8 +309,8 @@ module.exports = class Blind {
 
         this._moveTicks++;
 
-        console.log(`moveTicks: ${this._moveTicks}`);
-        console.log(`position: ${this._currentPosition}`);
+        console.log(`Blind ${this.index} moveTicks: ${this._moveTicks}`);
+        console.log(`Blind ${this.index} position: ${this._currentPosition}`);
 
         // If we hit the rotation limit, call the handler to stop
         if (
