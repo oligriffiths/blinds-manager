@@ -31,9 +31,8 @@ const writeConfig = (config) => {
 
 // Run Board
 board.on('ready', async () => {
-
     const blinds = new Blinds(five, config.blindConfigs);
-    let request, response;
+    let response;
 
     // Cleanup after running
     const cleanup = () => {

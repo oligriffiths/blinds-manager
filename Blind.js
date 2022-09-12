@@ -259,6 +259,7 @@ module.exports = class Blind {
             return false;
         }
 
+        console.log(`_moveMotor[${this.index}] ${direction} - ${speed}`);
         this.motor[direction](speed);
 
         // Set the tick boundaries for this movement
@@ -289,14 +290,14 @@ module.exports = class Blind {
         }
         this._reedSwitchCounter = 0;
 
-        this._resetStallTimer();
-
         // Output tick diff time between last tick and this one, for debugging
         if (this._lastTick) {
             const diff = Math.abs(new Date() - this._lastTick);
             console.log(`Tick differential time (ms): ${diff}`);
         }
         this._lastTick = new Date();
+
+        this._resetStallTimer();
 
         // If we're not ignoring the position (nudging), update the current position
         if (!this._ignorePosition) {
@@ -328,7 +329,7 @@ module.exports = class Blind {
      * @private
      */
     _stallTimerCallback() {
-        console.log(`Blind ${this.index} stall timer executed`);
+        console.log(`Blind ${this.index} stall timer executed after ${this.stallTime}`);
         this.stop();
         this.initialized = false;
     }
