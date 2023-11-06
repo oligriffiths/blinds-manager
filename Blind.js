@@ -16,19 +16,23 @@ module.exports = class Blind {
         this._stallTimer = null;
         this._reedSwitchCounter = 0;
 
+        this.setConfig(config);
         this.motor = motor;
         this.index = index;
         this.initialized = false;
-        this.stallTime = 1000; // The time in ms before the motor is considered stalled (no ticks within this time)
 
-        this.setConfig(config);
+        // The time in ms before the motor is considered stalled (no ticks within this time)
+        // Inversely proportional to speed
+        this.stallTime = 1 / this._speed * 500000;
+
+        console.log(`Stalltime ${this.stallTime}`);
 
         // Setup start timer to log start date and setup stall timer
         this.motor.on('start', () => {
             console.log(`Blind ${this.index} started`);
             this.motor.startDate = new Date();
 
-            // Start a timer to check if we receive a tick from the reed switch within this.stallTime (1000ms)
+            // Start a timer to check if we receive a tick from the reed switch within this.stallTime
             // If we do, reset the time, if we don't the motor stalled and we need to stop it.
             this._resetStallTimer();
         });
@@ -239,7 +243,17 @@ module.exports = class Blind {
             return false;
         }
 
-        this._moveMotor(direction, this._speed, ticks > 0 ? ticks : -ticks, callback);
+        const moveTicks = ticks > 0 ? ticks : -ticks;
+        const slowTicks = 6;
+
+        // this._moveMotor(direction, this._speed / 2, slowTicks, () => {
+        //     if (moveTicks > slowTicks) {
+        //         this._moveMotor(direction, this._speed, moveTicks - slowTicks, callback);
+        //     }
+        //     callback();
+        // });
+        this._moveMotor(direction, this._speed, moveTicks, callback);
+
         return true;
     }
 
@@ -335,7 +349,7 @@ module.exports = class Blind {
     }
 
     /**
-     * Start/reset a timer to check if we receive a tick from the reed switch within this.stallTime (1000ms)
+     * Start/reset a timer to check if we receive a tick from the reed switch within this.stallTime
      * If we do, reset the time, if we don't the motor stalled and we need to stop it.
      * @private
      */

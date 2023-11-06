@@ -98,12 +98,24 @@ board.on('ready', async () => {
                 }).on('end', () => {
                     const body = qs.parse(Buffer.concat(data).toString());
                     const blind = body.blind;
-                    const action = body.action;
+                    let action = body.action;
+                    let url = req.url;
 
-                    console.log(`Request payload: ${JSON.stringify(body)}`);
+                    switch (url) {
+                        case '/close':
+                            url = '/rpc';
+                            action = 'closeAll'
+                            break;
+                        case '/open':
+                            url = '/rpc';
+                            action = 'openAll'
+                            break;
+                    }
+
+                    console.log(`Request to ${url} with action ${action} payload: ${JSON.stringify(body)}`);
 
                     try {
-                        if (req.url === '/rpc') {
+                        if (url === '/rpc') {
                             if (!blinds[action]) {
                                 throw new Error(`Action ${action} does not exist on Blinds.js`);
                             }

@@ -1,8 +1,8 @@
 {
   "blindConfigs": [
-    {"openTime": 35, "closeTime": 30, "ticks": 52, "speed": 255},
-    {"openTime": 35, "closeTime": 30, "ticks": 52, "speed": 255},
-    {"openTime": 34, "closeTime": 26.9, "ticks": 42, "speed": 255},
-    {"openTime": 29, "closeTime": 25.5, "ticks": 44, "speed": 255}
+    {"openTime": 35, "closeTime": 30, "ticks": 51, "speed": 255},
+    {"openTime": 35, "closeTime": 30, "ticks": 50, "speed": 255},
+    {"openTime": 34, "closeTime": 26.9, "ticks": 41, "speed": 150},
+    {"openTime": 29, "closeTime": 25.5, "ticks": 44, "speed": 100}
   ]
 }

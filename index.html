@@ -60,7 +60,6 @@
         function setState(state) {
             globalState = state;
 
-            let allInitialized = true;
             for (let index in state) {
                 const blind = state[index];
                 const openStateElement = document.querySelector(`#blind_${index} .blind-state .open-state`);
@@ -77,17 +76,6 @@
                 closeElement.disabled = !blind.initialized;
                 positionElement.innerText = blind.positionTicks;
                 debugElement.innerHTML = JSON.stringify(blind, null, 2);
-
-                if (!blind.initialized) {
-                    allInitialized = false;
-                }
-            }
-
-            if (allInitialized) {
-                const openElement = document.querySelector(`#blinds button[value="openAll"]`);
-                const closeElement = document.querySelector(`#blinds button[value="closeAll"]`);
-                openElement.disabled = false;
-                closeElement.disabled = false;
             }
         }
 
@@ -121,8 +109,8 @@ $$state$$
         </legend>
 
         <form action="/rpc" method="post">
-            <button name="action" value="openAll" type="submit" disabled="disabled">Open</button>
-            <button name="action" value="closeAll" type="submit" disabled="disabled">Close</button>
+            <button name="action" value="openAll" type="submit">Open</button>
+            <button name="action" value="closeAll" type="submit">Close</button>
             <button name="action" value="nudgeOpenAll" type="submit">Nudge Up</button>
             <button name="action" value="nudgeCloseAll" type="submit">Nudge Down</button>
             <button name="action" value="stop" type="submit">Stop</button>
