@@ -55,8 +55,12 @@ sudo systemctl enable blinds
 sudo reboot
 ```
 
-TorRestart service and tail log after making file changes:
+To Restart service and tail log after making file changes:
 
 ```
 sudo systemctl restart blinds.service && journalctl -f -u blinds.service
 ```
+
+# Alexa control
+
+https://www.virtualsmarthome.xyz/url_switch/
